@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 //===========
 // DATABASE
 //===========
-// const db = require('/models');
+const db = require('./models');
 
 const brock = {
     name: "Brock Whitbread-Cole",
@@ -80,8 +80,17 @@ app.get('/api/profile', (req, res) => {
 // bonsai index endpoint
 app.get('/api/bonsai', (req, res) => {
     // find all bonsai
+    db.Bonsai.find({}, (err, bonsai) => {
+        if (err) throw err;
+        console.log(bonsai);
+        res.json(bonsai);
+    });
+});
 
-    // return as json
+
+// bonsai creation endpoint
+app.post('/api/bonsai', (req, res) => {
+    // create new bonsai based on posted data in req.body
 });
 
 //===========
