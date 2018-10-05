@@ -13,16 +13,12 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
 //===========
 // DATABASE
 //===========
-
 // const db = require('/models');
-
-//===========
-// ROUTES
-//===========
-
 
 const brock = {
     name: "Brock Whitbread-Cole",
@@ -43,7 +39,54 @@ const brock = {
             dateOfBirth: "April 2018"
         }
     ]
-}
+};
 
-// Set up server
-app.listen(process.env.PORT || 3000);
+
+
+//===========
+// ROUTES
+//===========
+// serve static files from the public dir
+app.use(express.static('public'));
+
+// HTML Endpoints
+app.get('/', homepage = (req, res) => {
+    res.sendFile(__dirname + '/views/index.html');
+});
+
+// JSON API Endpoints
+// endpoint for general API instructions
+app.get('/api', (req, res) => {
+    res.json({
+        message: "Welcome to my personal api! Here's what you need to know!",
+        documentationUrl: "https://github.com/brockwc/personal-api",
+        baseUrl: "https://obscure-hollows-79375.herokuapp.com/",
+        endpoints: [
+            {method: "GET", path: "/api", description: "Describes all available endpoints"},
+            {method: "GET", path: "/api/profile", description: "Data about me"},
+            {method: "GET", path: "/api/bonsai", description: "Data collection containing all of my trees"},
+            {method: "POST", path: "/api/bonsai", description: "Create a new campsite bonsai document"},
+            {method: "PUT", path: "/api/bonsai/:id", description: "Edit a previous bonsai entry and update it"},
+            {method: "DELETE", path: "/api/bonsai/:id", description: "Remove a bonsai"}
+        ]
+    });
+});
+
+// profile endpoint
+app.get('/api/profile', (req, res) => {
+    res.json(brock);
+});
+
+// bonsai index endpoint
+app.get('/api/bonsai', (req, res) => {
+    // find all bonsai
+
+    // return as json
+});
+
+//===========
+// SERVER
+//===========
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Express server is up and running...");
+});
